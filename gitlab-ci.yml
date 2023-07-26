@@ -1,0 +1,73 @@
+image: docker:20.10
+
+services:
+  - docker:20.10-dind
+
+stages:
+  - 📦 build
+  - 🤞 test
+  - 🐴 publish
+  - 🦄 deploy
+
+test:
+  stage: 🤞 test
+  before_script:
+    - docker network create bleexo-network-backend
+    - docker volume create bleexo-volume-postgres
+    - docker volume create bleexo-volume-mongodb
+  script:
+    - docker compose --file ./docker-compose.yml --file ./docker-compose.ci.yml up --build --abort-on-container-exit
+  after_script:
+    - docker compose --file ./docker-compose.yml --file ./docker-compose.ci.yml down
+    - docker volume rm bleexo-volume-mongodb
+    - docker volume rm bleexo-volume-postgres
+    - docker network rm bleexo-network-backend
+
+publish-branch:
+  stage: 🐴 publish
+  before_script:
+    - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  rules:
+    - if: $CI_COMMIT_BRANCH
+
+publish-tag:
+  stage: 🐴 publish
+  before_script:
+    - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG --tag $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+    - docker push $CI_REGISTRY_IMAGE:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+
+deploy-staging:
+  stage: 🦄 deploy
+  before_script:
+    - apk --no-cache add build-base curl gcompat
+    - curl -O https://clever-tools.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz
+    - tar xvzf clever-tools-latest_linux.tar.gz
+    - cp clever-tools-latest_linux/clever /usr/local/bin/
+    - clever login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
+  script:
+    - clever link $CLEVER_APP_ID_STAGING
+    - clever deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+deploy-production:
+  stage: 🦄 deploy
+  before_script:
+    - apk --no-cache add build-base curl gcompat
+    - curl -O https://clever-tools.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz
+    - tar xvzf clever-tools-latest_linux.tar.gz
+    - cp clever-tools-latest_linux/clever /usr/local/bin/
+    - clever login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
+  script:
+    - clever link $CLEVER_APP_ID_PRODUCTION
+    - clever deploy
+  rules:
+    - if: $CI_COMMIT_TAG

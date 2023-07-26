@@ -1,0 +1,52 @@
+services:
+  server-nest:
+    container_name: server-nest
+    image: server-nest:local
+    build: .
+    environment:
+      # change JWT_SECRET to reset all tokens from user ( make them force to login again )
+      - JWT_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNlbmQgTWFpbGVyIiwiaWF0IjoxNTE2MjM5MDIyfQ.o6ktTAba0U_KSTaAddvunnhj83I2g4ZS50p8YCrAdh0
+      - JWT_EXPIRATION_TIME=3600
+      - EMAIL_SHORTURL = http://localhost:8080/url
+      - EMAIL_CONFIRMATION_URL=http://localhost:8080/auth
+      - EMAIL_PASSWORD_RESET_URL=http://localhost:8080/users/confirm-password
+      - EMAIL_HOST=smtp.mailtrap.io
+      - EMAIL_PORT=2525
+      - EMAIL_USER=17dcf1d855668e
+      - EMAIL_PASSWORD=acc2b3930b433e
+      - SALTORROUNDS=15
+      - NODE_ENV=test
+      - POSTGRES_HOST=server-nest-postgres
+      - POSTGRES_DATABASE_NAME=server-nest
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_USERNAME=example
+      - POSTGRES_PORT=5432
+    ports:
+      - 8080:8080
+      - 9229:9229
+    volumes:
+      - .:/var/www
+      - /var/www/node_modules
+    depends_on:
+      - server-nest-postgres
+    networks:
+      - my-network
+    command: /bin/sh
+    stdin_open: true
+    tty: true
+
+  server-nest-postgres:
+    container_name: server-nest-postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=server-nest
+      - POSTGRES_USER=example
+      - POSTGRES_PASSWORD=example
+    ports:
+      - 5432:5432
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

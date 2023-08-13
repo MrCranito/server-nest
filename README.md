@@ -1,9 +1,7 @@
 # All in One NestJs Server to Manage Users 
 
 This repository will help you to gain a lot of time to starting a new nestjs project with users handling. 
-- [![Docker][Docker.io]][Docker-url]
-- [![Nest][Nest.js]][Nest-url]
-- [![PostgresSql][PostgresSql.io]][PostgresSql-url]
+[![Docker][Docker.io]][Docker-url] [![Nest][Nest.js]][Nest-url] [![PostgresSql][PostgresSql.io]][PostgresSql-url]
 
 ## How it will help me gain a lot of time ?
 
@@ -59,7 +57,7 @@ Every little bit helps.
 
 [Nest.js]: https://img.shields.io/badge/nest.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Nest-url]: https://nextjs.org/
-[Docker.io]:  https://img.shields.io/badge/Docker-DD0031?style=for-the-badge&logo=docker&logoColor=blue
+[Docker.io]:  https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://docker.com/
-[PostgresSQL.io]: https://img.shields.io/badge/PostgresSql-DD0031?style=for-the-badge&logo=postgressql&logoColor=white
+[PostgresSQL.io]: https://img.shields.io/badge/PostgreSql-4169E1?style=for-the-badge&logo=postgresql&logoColor=white
 [PostgresSQL-url]: https://postgres.org/

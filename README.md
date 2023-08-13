@@ -56,6 +56,8 @@ Every little bit helps.
 
 <a href="https://www.buymeacoffee.com/mrcranito" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
+Made with some French ❤️ by [@MrCranito](https://github.com/MrCranito)
+
 [Nest.js]: https://img.shields.io/badge/nest.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Nest-url]: https://nextjs.org/
 [Docker.io]:  https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white

@@ -50,7 +50,7 @@ Feel Free to make a pull request to improve this repository
 
 ## Got Some Troubles ? 
 
-Send me a 📩  [MrCranito](https://github.com/MrCranito)
+Send me a 📩 at  [MrCranito](https://github.com/MrCranito)
 
 
 ## Wanna support ?

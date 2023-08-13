@@ -1,0 +1,14 @@
+{
+    "DESC_TROUBLE": "Si encuentras algún problema durante tu registro, por favor contáctanos en support@torsky.com. Estaremos encantados de responderte lo antes posible.",
+
+    "DESC_COMPANY": "© 2023 [Torsky], Inc. 104 Boulevard de l'Embouchure,\nToulouse, FR 31200",
+    "VALIDATE_CODE": {
+        "TITLE": "Bienvenido a Torsky",
+        "DESCRIPTION": "Para finalizar tu registro, debes ingresar el siguiente código en nuestra aplicación para comenzar a usar nuestros servicios."
+    },
+    "RESET_PASSWORD": {
+        "TITLE": "¿Olvidaste tu contraseña?",
+        "DESCRIPTION": "Para restablecer tu contraseña, por favor haz clic en el siguiente enlace para actualizar tu contraseña.",
+        "BUTTON": "Cambiar mi contraseña"
+    }
+}

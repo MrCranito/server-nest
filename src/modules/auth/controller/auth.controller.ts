@@ -17,7 +17,7 @@ import { Jwt } from '../interfaces/jwt.interface';
 import { User } from './../../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { MailConfig } from './../../../config/mails/mail.config';
-import { EmailService } from './../../../modules/email/service/email.service';
+import { EmailService } from './../../../modules/email/services/email.service';
 
 @Controller('auth')
 export class AuthController {
@@ -31,15 +31,18 @@ export class AuthController {
   @isPublic()
   @Post('login')
   async signIn(@Request() req): Promise<Jwt | any> {
-    const user = await this.authService.validateUserCredentials(
-      req.body.email,
-      req.body.password,
-    );
-    if (!user.isEmailConfirmed) {
-      return this.emailService.sendVerificationLink(user.email);
-    } else {
-      return this.authService.loginWithCredentials(user);
-    }
+    // const user = await this.authService.validateUserCredentials(
+    //   req.body.email,
+    //   req.body.password,
+    // );
+
+    // if (!user.isEmailConfirmed) {
+    //   return this.emailService.sendVerificationLink(user.email);
+    // } else {
+    //   return this.authService.loginWithCredentials(user);
+    // }
+
+    return this.authService.createJwt(req.body.email);
   }
 
   @isPublic()

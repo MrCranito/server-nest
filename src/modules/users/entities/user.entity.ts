@@ -19,4 +19,6 @@ export class User {
 
   @Column({ default: false })
   public isEmailConfirmed: boolean;
+
+  public token?: string;
 }

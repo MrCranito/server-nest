@@ -1,0 +1,14 @@
+{
+    "DESC_TROUBLE": "Si vous rencontrez des soucis lors de votre inscription, merci de nous contacter à support@torsky.com, nous serrons ravi de vous répondre dans les plus brefs délais.",
+
+    "DESC_COMPANY":  "© 2023 [Torsky], Inc. 104 Boulevard de l'embouchure, \n Toulouse, FR 31200",
+    "VALIDATE_CODE": {
+        "TITLE": "Bienvenue chez Torsky",
+        "DESCRIPTION": "Pour finaliser votre inscription, vous devez rentrer le code suivant dans notre application pour commencer à utiliser nos services"
+    },
+    "RESET_PASSWORD": {
+        "TITLE": "Vous avez oublié votre mot de passe?",
+        "DESCRIPTION": "Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant pour mettre à jour votre mot de passe.",
+        "BUTTON": "Modifiez mon mot de passe"
+    }
+}

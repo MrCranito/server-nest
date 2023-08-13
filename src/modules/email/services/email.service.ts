@@ -3,13 +3,17 @@ import { createTransport } from 'nodemailer';
 import * as Mail from 'nodemailer/lib/mailer';
 import { MailConfig } from './../../../config/mails/mail.config';
 import { JwtService } from '@nestjs/jwt';
-import { UrlService } from './../../../modules/url/services/url.service';
+import { CodeService } from './../../../modules/code/services/code.service';
+import { verifyCodeTemplate } from './../../../templates/mails/verification/content';
 
 @Injectable()
 export class EmailService {
   private nodemailerTransport: Mail;
 
-  constructor(private jwtService: JwtService, private urlService: UrlService) {
+  constructor(
+    private jwtService: JwtService,
+    private codeService: CodeService,
+  ) {
     this.nodemailerTransport = createTransport({
       host: MailConfig.host,
       port: Number.parseInt(MailConfig.port, 10),
@@ -24,25 +28,15 @@ export class EmailService {
     return this.nodemailerTransport.sendMail(options);
   }
 
-  async sendVerificationLink(email: string): Promise<any> {
-    const payload = { email };
-    const token = this.jwtService.sign(payload, {
-      secret: MailConfig.token,
-      expiresIn: MailConfig.expiredIn,
-    });
+  async sendVerificationCode(email: string): Promise<any> {
+    const code = await this.codeService.generateCode(email);
 
-    const url = `${MailConfig.confirmUrl}?token=${token}`;
-
-    const shortedUrl = await this.urlService.shortenUrl(MailConfig.confirmUrl, {
-      longUrl: url,
-    });
-
-    const text = `Welcome to the application. To confirm the email address, click here: ${shortedUrl}`;
+    const text = verifyCodeTemplate(code.code);
 
     return this.sendMail({
       to: email,
       subject: 'Email confirmation',
-      text,
+      html: text,
     });
   }
 

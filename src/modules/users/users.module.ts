@@ -6,14 +6,13 @@ import { UserService } from './services/user.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { HashServiceHelper } from './../../shared/helpers/hash.helper';
-import { JwtService } from '@nestjs/jwt';
+import { JwtAppModule } from '../jwt/jwt.module';
 import { EmailModule } from '../email/email.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), EmailModule],
+  imports: [TypeOrmModule.forFeature([User]), JwtAppModule, EmailModule],
   providers: [
     UserService,
-    JwtService,
     HashServiceHelper,
     {
       provide: APP_GUARD,

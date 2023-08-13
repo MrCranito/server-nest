@@ -4,15 +4,14 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { JwtConfig } from './../../../config/auth/jwt.config';
+
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './../../../shared/decorators/ispublic.decorator';
-
+import * as firebaseAdmin from 'firebase-admin';
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService, private reflector: Reflector) {}
+  constructor(private reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -30,12 +29,17 @@ export class JwtAuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: JwtConfig.secret,
-      });
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
-      request['user'] = payload;
+      console.log('token', token);
+      firebaseAdmin
+        .auth()
+        .verifyIdToken(token)
+        .then((decodedToken) => {
+          if (decodedToken.uid) {
+            // 💡 We're assigning the payload to the request object here
+            // so that we can access it in our route handlers
+            request['user'] = token;
+          }
+        });
     } catch {
       throw new UnauthorizedException();
     }

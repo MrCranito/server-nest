@@ -3,4 +3,5 @@ export const enum CustomHttpErrors {
   USER_ALREADY_EXISTS = 'User already exists',
   INTERNAL_SERVER_ERROR = 'Internal server error',
   USER_NOT_CONFIRMED = 'User not confirmed',
+  TOKEN_EXPIRED = 'Token has expired',
 }

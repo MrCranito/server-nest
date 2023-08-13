@@ -24,11 +24,16 @@ export class AuthService {
   }
 
   async loginWithCredentials(user: any) {
-    console.log('user', user);
     const payload = { email: user.email };
-
     return {
-      access_token: await this.jwtService.sign(payload),
+      token: await this.jwtService.sign(payload),
+    };
+  }
+
+  async createJwt(email: string) {
+    const payload = { email };
+    return {
+      token: await this.jwtService.sign(payload),
     };
   }
 }

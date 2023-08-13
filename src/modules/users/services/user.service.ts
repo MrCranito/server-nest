@@ -10,7 +10,7 @@ import { User } from '../entities/user.entity';
 import { CreateUserDto } from '../dto/user.dto';
 import { CustomHttpErrors } from './../../../shared/errors/http.errors';
 import { HashServiceHelper } from './../../../shared/helpers/hash.helper';
-import { EmailService } from './../../../modules/email/service/email.service';
+import { EmailService } from './../../../modules/email/services/email.service';
 import { JwtService } from '@nestjs/jwt';
 import { MailConfig } from './../../../config/mails/mail.config';
 
@@ -23,6 +23,10 @@ export class UserService {
     private emailService: EmailService,
     private jwtService: JwtService,
   ) {}
+
+  async find(query: any): Promise<User[]> {
+    return this.repository.find(query);
+  }
 
   async updateUser(id: number, body: Partial<User>): Promise<User> {
     let user: User = await this.repository
@@ -60,8 +64,8 @@ export class UserService {
     return this.repository.save(user);
   }
 
-  async findOne(id: number): Promise<User | undefined> {
-    return this.repository.findOneByOrFail({ id }).catch(() => {
+  async findOne(query: any): Promise<User> {
+    return this.repository.findOneByOrFail(query).catch(() => {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
@@ -72,7 +76,7 @@ export class UserService {
     });
   }
 
-  async findOneByEmail(email: string): Promise<User | undefined> {
+  async findOneByEmail(email: string): Promise<User> {
     const user: User = await this.repository
       .findOneByOrFail({ email })
       .catch(() => {
@@ -84,18 +88,7 @@ export class UserService {
           HttpStatus.NOT_FOUND,
         );
       });
-
-    if (!user.isEmailConfirmed) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNAUTHORIZED,
-          error: CustomHttpErrors.USER_NOT_CONFIRMED,
-        },
-        HttpStatus.UNAUTHORIZED,
-      );
-    } else {
-      return user;
-    }
+    return user;
   }
 
   async removeUser(id: number): Promise<DeleteResult> {
@@ -136,15 +129,26 @@ export class UserService {
         }
       });
 
+    await this.emailService.sendVerificationCode(user?.email);
+
     return this.repository.save(user);
   }
 
-  async resetPassword(email: string): Promise<any> {
+  async sendPasswordResetEmail(email: string): Promise<boolean> {
     const user: User = await this.repository.findOne({ where: { email } });
-    return this.emailService.sendResetPasswordLink(user?.email);
+    if (!user)
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: CustomHttpErrors.USER_NOT_FOUND,
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    await this.emailService.sendResetPasswordLink(user?.email);
+    return true;
   }
 
-  async updateUserPassword(email: string, password: string): Promise<any> {
+  async updateUserPassword(email: string, password: string): Promise<User> {
     const user: User = await this.repository
       .findOneOrFail({ where: { email } })
       .catch(() => {

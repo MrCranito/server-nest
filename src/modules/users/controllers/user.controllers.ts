@@ -23,6 +23,11 @@ export class UserController {
     return this.usersService.findOne(params.id);
   }
 
+  @Get()
+  find(@Query() query: any): Promise<User> {
+    return this.usersService.findOne(query);
+  }
+
   @Patch(':id')
   update(@Param() params: any, @Body() body: UpdateUserDto): Promise<User> {
     return this.usersService.updateUser(params.id, body);
@@ -40,13 +45,19 @@ export class UserController {
   }
 
   @isPublic()
-  @Post('reset-password')
-  resetPassword(@Body() body: any): Promise<any> {
-    return this.usersService.resetPassword(body.email);
+  @Post('confirm-email')
+  confirmEmail(@Query() query: any): Promise<User> {
+    return this.usersService.updateEmailIsConfirmed(query.email);
   }
 
   @isPublic()
-  @Post('confirm-password')
+  @Post('send-reset-password')
+  resetPassword(@Body() body: any): Promise<boolean> {
+    return this.usersService.sendPasswordResetEmail(body.email);
+  }
+
+  @isPublic()
+  @Post('reset-password')
   resetPasswordWithToken(@Query() query: any, @Body() body: any): Promise<any> {
     return this.usersService.resetPasswordWithToken(query.token, body.password);
   }

@@ -4,7 +4,7 @@ const runOptions: PostgresConnectionOptions = {
   name: 'default',
   type: 'postgres',
   host: process.env.POSTGRES_HOST,
-  port: parseInt(process.env.POSTGRES_PORT || '5432'),
+  port: parseInt(process.env.POSTGRES_PORT || '5434'),
   database: process.env.POSTGRES_DATABASE_NAME,
   username: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,

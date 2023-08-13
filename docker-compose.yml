@@ -8,12 +8,12 @@ services:
       - JWT_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNlbmQgTWFpbGVyIiwiaWF0IjoxNTE2MjM5MDIyfQ.o6ktTAba0U_KSTaAddvunnhj83I2g4ZS50p8YCrAdh0
       - JWT_EXPIRATION_TIME=3600
       - EMAIL_SHORTURL = http://localhost:8080/url
-      - EMAIL_CONFIRMATION_URL=http://localhost:8080/auth
-      - EMAIL_PASSWORD_RESET_URL=http://localhost:8080/users/confirm-password
+      - EMAIL_CONFIRMATION_URL=http://localhost:8080/confirm-email
+      - EMAIL_PASSWORD_RESET_URL=http://localhost:8080/users/reset-password
       - EMAIL_HOST=smtp.mailtrap.io
       - EMAIL_PORT=2525
-      - EMAIL_USER=17dcf1d855668e
-      - EMAIL_PASSWORD=acc2b3930b433e
+      - EMAIL_USER=625fa76e025224
+      - EMAIL_PASSWORD=228d903abe5a0a
       - SALTORROUNDS=15
       - NODE_ENV=test
       - POSTGRES_HOST=server-nest-postgres
@@ -21,6 +21,14 @@ services:
       - POSTGRES_PASSWORD=example
       - POSTGRES_USERNAME=example
       - POSTGRES_PORT=5432
+      - FIREBASE_API_KEY=AIzaSyBDTwNvun5phVGdKzLHVdXb0tpMFdNN2YQ
+      - FIREBASE_AUTH_DOMAIN=torsky-f9a2c.firebaseapp.com
+      - FIREBASE_PROJECT_ID=torsky-f9a2c
+      - FIREBASE_STORAGE_BUCKET=torsky-f9a2c.appspot.com
+      - FIREBASE_MESSAGING_SENDER_ID=713197205795
+      - FIREBASE_APP_ID=1:713197205795:web:de0ecbd79dc196f3dfb496
+      - FIREBASE_MEASUREMENT_ID=G-B6NJ7ZJL81
+
     ports:
       - 8080:8080
       - 9229:9229
@@ -42,8 +50,11 @@ services:
       - POSTGRES_DB=server-nest
       - POSTGRES_USER=example
       - POSTGRES_PASSWORD=example
+    expose:
+      - 5432
     ports:
       - 5432:5432
+    command: -p 5432
     networks:
       - my-network
 

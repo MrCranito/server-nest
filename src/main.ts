@@ -3,11 +3,15 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { IAppConfig } from './config/env/interfaces/app.config';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import * as firebaseAdmin from 'firebase-admin';
+import { firebaseConfig } from './config/firebase/firebase.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: true,
   });
+
+  firebaseAdmin.initializeApp(firebaseConfig);
 
   const configService = app.get(ConfigService);
 

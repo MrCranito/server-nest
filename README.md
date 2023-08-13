@@ -47,7 +47,11 @@ This repo is a [Nestjs](https://nestjs.com) that will help you manage everything
 ## Wanna contribute ? 
 
 Feel Free to make a pull request to improve this repository 
-Don't hesitate to send me a message if you got some troubles to make it run on your own [MrCranito](https://github.com/MrCranito)
+
+## Got Some Troubles ? 
+
+Send me a 📩  [MrCranito](https://github.com/MrCranito)
+
 
 ## Wanna support ?
 All this project is open source and free to use. If you want to support the project, you can use the link below.

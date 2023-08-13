@@ -60,6 +60,6 @@ Every little bit helps.
 [Nest.js]: https://img.shields.io/badge/nest.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Nest-url]: https://nextjs.org/
 [Docker.io]:  https://img.shields.io/badge/Docker-DD0031?style=for-the-badge&logo=docker&logoColor=blue
-[Docker-url]: https://postgres.org/
-[PostgresSQL.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[PostgresSQL-url]: https://angular.io/
+[Docker-url]: https://docker.com/
+[PostgresSQL.io]: https://img.shields.io/badge/PostgresSql-DD0031?style=for-the-badge&logo=postgressql&logoColor=white
+[PostgresSQL-url]: https://postgres.org/
